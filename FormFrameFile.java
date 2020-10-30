@@ -20,10 +20,7 @@ class FormFrame extends Frame implements ActionListener {
 		super(s);
 		setLayout(null);
 		setSize(925,1050);	//width,height
-		//file
-		f = new File("D:\\Java Programs\\Java Eclipse\\EclipsePrograms\\IO files\\FormFrameFile.txt");
-		fos = new FileOutputStream(f, false);
-	
+		
 		//headline
 		hL = new Label("Provisional Admission Form");
 		hL.setFont(new Font("Helvetica",Font.BOLD,50));
@@ -112,6 +109,9 @@ class FormFrame extends Frame implements ActionListener {
 		submitB.setBounds(360, 850, 200, 60);
 		//TODO: complete form --> design it --> file handling --> done
 		
+		
+		
+		//
 		add(hL);
 		
 		add(emailL);//
@@ -147,6 +147,14 @@ class FormFrame extends Frame implements ActionListener {
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		f = new File("D:\\Java Programs\\Java Eclipse\\EclipsePrograms\\IO files\\"+rollTf.getText()+".txt");
+		try {
+			fos = new FileOutputStream(f, false);
+		} catch (FileNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		// TODO Auto-generated method stub
 		if(e.getSource() == submitB) {
 			//email Label 
@@ -409,15 +417,15 @@ class FormFrame extends Frame implements ActionListener {
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			}
-			
+			}	
 		}//end if(getSource() == submit)m
-		
 	}
 }
 //Applet
 public class FormFrameFile extends Applet implements ActionListener {
-	FormFrame ff;		//frame
+	
+	//frame
+	FormFrame ff;		
 	TextArea ta;
 	Label l1, l2;
 	Button FormBtn;
@@ -426,14 +434,12 @@ public class FormFrameFile extends Applet implements ActionListener {
 		setLayout(null);
 		setSize(1850, 1050);
 		setBackground(Color.black);
-		
 		try {
 			ff = new FormFrame("Admission Form");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		l1 = new Label("Prof. Ram Meghe Institute of Technology & Research");
 		l1.setFont(new Font("Helvetica",Font.BOLD,50));
 		l1.setForeground(Color.white);
@@ -444,8 +450,7 @@ public class FormFrameFile extends Applet implements ActionListener {
 		l2.setForeground(Color.red);
 		l2.setBounds(430, 200, 1100, 80);
 		
-		
-		ta = new TextArea(" NOTE:-\n\n The students who have filled and submitted\n the Summer 2020 SGBAU Examination form\n are only eligible to fill the Provisional\n Admission Form for the Admission to the\n Higher Class.",8,40,TextArea.SCROLLBARS_NONE);	
+		ta = new TextArea("\n The students who have filled and submitted\n the Summer 2020 SGBAU Examination form\n are only eligible to fill the Provisional\n Admission Form for the Admission to the\n Higher Class.\n\n Note:- Your details will get stored in a file\n (File Name is your Roll No.)",8,40,TextArea.SCROLLBARS_NONE);	
 		ta.setFont(new Font("Helvetica",Font.BOLD,25));
 		ta.setBackground(Color.black);
 		ta.setForeground(Color.white);
