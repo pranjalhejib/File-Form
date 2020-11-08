@@ -1,6 +1,7 @@
 package Projekt;
 
 import java.io.*;
+import javax.swing.JOptionPane;
 import java.applet.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -178,7 +179,7 @@ class FormFrame extends Frame implements ActionListener {			//form fill frame
 	Button submitB;
 	Choice deptCh, admYrCh, secCh, genderCh;
 	Label hL,emailL, selectDeptL, fullNameL, admYrL, secL, rollL, genderL, mobileL, permanentL;
-	TextField emailTf, fullNameTf, rollTf, mobileTf, permanentTf, savedSuccessTf;
+	TextField emailTf, fullNameTf, rollTf, mobileT, mobileTf, permanentTf, savedSuccessTf;
 	FormFrame(String s) throws Exception {
 
 		super(s);
@@ -201,7 +202,8 @@ class FormFrame extends Frame implements ActionListener {			//form fill frame
 		selectDeptL.setBounds(100, 350, 250, 50);
 		deptCh = new Choice();
 		deptCh.setBounds(350, 360, 430, 50);
-		deptCh.add("---select---");
+		//deptCh.add("---select---");
+		deptCh.add("");
 		deptCh.add("Computer Science Engineering");
 		deptCh.add("Mechanical Engineering");
 		deptCh.add("Information Technology");
@@ -221,7 +223,8 @@ class FormFrame extends Frame implements ActionListener {			//form fill frame
 		admYrL.setBounds(100, 480, 350, 30);
 		admYrCh = new Choice();
 		admYrCh.setBounds(450, 480, 330, 30);
-		admYrCh.add("---select---");
+		//admYrCh.add("---select---");
+		admYrCh.add("");
 		admYrCh.add("B.E II Year");
 		admYrCh.add("B.E III Year");
 		admYrCh.add("B.E IV Year");
@@ -235,7 +238,8 @@ class FormFrame extends Frame implements ActionListener {			//form fill frame
 		secL.setBounds(100, 530, 130, 30);
 		secCh = new  Choice();
 		secCh.setBounds(230, 530, 550, 30);
-		secCh.add("---select---");
+		//secCh.add("---select---");
+		secCh.add("");
 		secCh.add("Section A");
 		secCh.add("Section B");
 		secCh.add("Secton C (Second Shift)");
@@ -252,15 +256,19 @@ class FormFrame extends Frame implements ActionListener {			//form fill frame
 		genderL.setBounds(100, 640, 130, 30);
 		genderCh = new Choice();
 		genderCh.setBounds(230, 640, 550, 30);
-		genderCh.add("---select---");
+		//genderCh.add("---select---");
+		genderCh.add("");
 		genderCh.add("Male");
 		genderCh.add("Female");
 
 		//Student Mobile No *--> align
 		mobileL = new Label("★ Student Mobile No:-");
 		mobileL.setBounds(100, 690, 230, 30);
-		mobileTf = new TextField("+91 ");
-		mobileTf.setBounds(330, 690, 450, 30);
+		mobileT = new TextField("+91 "); //+91
+		mobileT.setBounds(330, 690, 50, 30);      //+91
+		mobileT.setEditable(false);
+		mobileTf = new TextField();
+		mobileTf.setBounds(380, 690, 400, 30);
 		
 		//Permanent Address *-->align
 		permanentL = new Label("★ Permanent Address:-");
@@ -274,9 +282,9 @@ class FormFrame extends Frame implements ActionListener {			//form fill frame
 		//TODO: complete form --> design it --> file handling --> done
 		
 		//saved-successTf
-		savedSuccessTf = new TextField(" ★  All Fields Mandatory");
+		savedSuccessTf = new TextField(" ★  All Fields Are Mandatory");
 		savedSuccessTf.setEditable(false);
-		savedSuccessTf.setBounds(335, 950, 250, 35);
+		savedSuccessTf.setBounds(325, 950, 275, 35);
 		
 		//
 		add(hL);
@@ -303,6 +311,7 @@ class FormFrame extends Frame implements ActionListener {			//form fill frame
 		add(genderCh);//
 		
 		add(mobileL);//
+		add(mobileT);
 		add(mobileTf);//
 		
 		add(permanentL);//
@@ -336,270 +345,322 @@ class FormFrame extends Frame implements ActionListener {			//form fill frame
 		// TODO Auto-generated method stub
 		if(e.getSource() == submitB) {
 			
-			//email Label 
-			str = emailL.getText();
-			ch = str.toCharArray();
-			for(int i=0; i<str.length(); i++) {
+			if(emailTf.getText().trim().isEmpty() == false && deptCh.getSelectedItem().trim().isEmpty() == false && fullNameTf.getText().trim().isEmpty() == false && admYrCh.getSelectedItem().trim().isEmpty() == false && secCh.getSelectedItem().trim().isEmpty() == false && rollTf.getText().trim().isEmpty() == false && genderCh.getSelectedItem().trim().isEmpty() == false && mobileTf.getText().trim().isEmpty() == false && permanentTf.getText().trim().isEmpty() == false) {
+				//email Label 
+				str = emailL.getText();
+				ch = str.toCharArray();
+				for(int i=0; i<str.length(); i++) {
+					try {
+						fos.write(ch[i]);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				//email
+				str = emailTf.getText();
+				ch = str.toCharArray();
+				for(int i=0; i<str.length(); i++) {
+					try {
+						fos.write(ch[i]);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}		
+				//space1
 				try {
-					fos.write(ch[i]);
+					fos.write('\n');
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}
-			//email
-			str = emailTf.getText();
-			ch = str.toCharArray();
-			for(int i=0; i<str.length(); i++) {
+				//selectDeptL
+				str = selectDeptL.getText();
+				ch = str.toCharArray();
+				for(int i=0; i<str.length(); i++) {
+					try {
+						fos.write(ch[i]);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				//deptCh
+				str = deptCh.getSelectedItem();
+				ch = str.toCharArray();
+				for(int i=0; i<str.length(); i++) {
+					try {
+						fos.write(ch[i]);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				//space2
 				try {
-					fos.write(ch[i]);
+					fos.write('\n');
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}		
-			//space1
-			try {
-				fos.write('\n');
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			//selectDeptL
-			str = selectDeptL.getText();
-			ch = str.toCharArray();
-			for(int i=0; i<str.length(); i++) {
+				//fullNameL
+				str = fullNameL.getText();
+				ch = str.toCharArray();
+				for(int i=0; i<str.length(); i++) {
+					try {
+						fos.write(ch[i]);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				//fullNameTf
+				str = fullNameTf.getText();
+				ch = str.toCharArray();
+				for(int i=0; i<str.length(); i++) {
+					try {
+						fos.write(ch[i]);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				//space3
 				try {
-					fos.write(ch[i]);
+					fos.write('\n');
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}
-			//deptCh
-			str = deptCh.getSelectedItem();
-			ch = str.toCharArray();
-			for(int i=0; i<str.length(); i++) {
+				//admYrL
+				str = admYrL.getText();
+				ch = str.toCharArray();
+				for(int i=0; i<str.length(); i++) {
+					try {
+						fos.write(ch[i]);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				//admYrCh
+				str = admYrCh.getSelectedItem();
+				ch = str.toCharArray();
+				for(int i=0; i<str.length(); i++) {
+					try {
+						fos.write(ch[i]);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				//space4
 				try {
-					fos.write(ch[i]);
+					fos.write('\n');
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}
-			//space2
-			try {
-				fos.write('\n');
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			//fullNameL
-			str = fullNameL.getText();
-			ch = str.toCharArray();
-			for(int i=0; i<str.length(); i++) {
+				//secL
+				str = secL.getText();
+				ch = str.toCharArray();
+				for(int i=0; i<str.length(); i++) {
+					try {
+						fos.write(ch[i]);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				//secCh
+				str = secCh.getSelectedItem();
+				ch = str.toCharArray();
+				for(int i=0; i<str.length(); i++) {
+					try {
+						fos.write(ch[i]);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				//space5
 				try {
-					fos.write(ch[i]);
+					fos.write('\n');
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}
-			//fullNameTf
-			str = fullNameTf.getText();
-			ch = str.toCharArray();
-			for(int i=0; i<str.length(); i++) {
+				//rollL
+				str = rollL.getText();
+				ch = str.toCharArray();
+				for(int i=0; i<str.length(); i++) {
+					try {
+						fos.write(ch[i]);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				//rollTf
+				str = rollTf.getText();
+				ch = str.toCharArray();
+				for(int i=0; i<str.length(); i++) {
+					try {
+						fos.write(ch[i]);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				//space6
 				try {
-					fos.write(ch[i]);
+					fos.write('\n');
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}
-			//space3
-			try {
-				fos.write('\n');
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			//admYrL
-			str = admYrL.getText();
-			ch = str.toCharArray();
-			for(int i=0; i<str.length(); i++) {
+				//genderL
+				str = genderL.getText();
+				ch = str.toCharArray();
+				for(int i=0; i<str.length(); i++) {
+					try {
+						fos.write(ch[i]);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				//genderCh
+				str = genderCh.getSelectedItem();
+				ch = str.toCharArray();
+				for(int i=0; i<str.length(); i++) {
+					try {
+						fos.write(ch[i]);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				//space7
 				try {
-					fos.write(ch[i]);
+					fos.write('\n');
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}
-			//admYrCh
-			str = admYrCh.getSelectedItem();
-			ch = str.toCharArray();
-			for(int i=0; i<str.length(); i++) {
+				//mobileL
+				str = mobileL.getText();
+				ch = str.toCharArray();
+				for(int i=0; i<str.length(); i++) {
+					try {
+						fos.write(ch[i]);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				//mobileT
+				str = mobileT.getText();
+				ch = str.toCharArray();
+				for(int i=0; i<str.length(); i++) {
+					try {
+						fos.write(ch[i]);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				//mobileTf
+				str = mobileTf.getText();
+				ch = str.toCharArray();
+				for(int i=0; i<str.length(); i++) {
+					try {
+						fos.write(ch[i]);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				//space8
 				try {
-					fos.write(ch[i]);
+					fos.write('\n');
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}
-			//space4
-			try {
-				fos.write('\n');
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			//secL
-			str = secL.getText();
-			ch = str.toCharArray();
-			for(int i=0; i<str.length(); i++) {
+				//permanentL
+				str = permanentL.getText();
+				ch = str.toCharArray();
+				for(int i=0; i<str.length(); i++) {
+					try {
+						fos.write(ch[i]);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				//permanentTf
+				str = permanentTf.getText();
+				ch = str.toCharArray();
+				for(int i=0; i<str.length(); i++) {
+					try {
+						fos.write(ch[i]);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				//space9
 				try {
-					fos.write(ch[i]);
+					fos.write('\n');
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				}	
+				//saved success
+				savedSuccessTf.setText(" ★  Thank You!");	
+
+				//pop-up: Class JOptionPane
+				JOptionPane.showMessageDialog(null,"Successfully Saved!");
+				//exit: close everything
+				System.exit(0);
+			}
+			//all fields are empty
+			else if(emailTf.getText().trim().isEmpty() == true && deptCh.getSelectedItem().trim().isEmpty() == true && fullNameTf.getText().trim().isEmpty() == true && admYrCh.getSelectedItem().trim().isEmpty() == true && secCh.getSelectedItem().trim().isEmpty() == true && rollTf.getText().trim().isEmpty() == true && genderCh.getSelectedItem().trim().isEmpty() == true && mobileTf.getText().trim().isEmpty() == true && permanentTf.getText().trim().isEmpty() == true){
+				savedSuccessTf.setText(" ★  All Fields Are Mandatory");	
+			}
+			//some fields aren't empty
+			else {
+				
+				if(emailTf.getText().trim().isEmpty() == true) {	//email
+					savedSuccessTf.setText(" ★  Enter Email Id");
+				}
+				else if(deptCh.getSelectedItem().trim().isEmpty() == true) {	//dept
+					savedSuccessTf.setText(" ★  Select Your Department");
+				}
+				else if(fullNameTf.getText().trim().isEmpty() == true) {	//full name
+					savedSuccessTf.setText(" ★  Enter Your Name");
+				}
+				else if(admYrCh.getSelectedItem().trim().isEmpty() == true) { //adm yr
+					savedSuccessTf.setText(" ★  Select Admission Year");
+				}
+				else if(secCh.getSelectedItem().trim().isEmpty() == true) {	//section
+					savedSuccessTf.setText(" ★  Select Your Section");
+				}
+				else if(rollTf.getText().trim().isEmpty() == true) {	//roll no
+					savedSuccessTf.setText(" ★  Enter Your Roll No.");
+				}
+				else if(genderCh.getSelectedItem().trim().isEmpty() == true) {	//gender
+					savedSuccessTf.setText(" ★  Select Your Gender");
+				}
+				else if(mobileTf.getText().trim().isEmpty() == true) {	//mobile
+					savedSuccessTf.setText(" ★  Enter Your Contact No.");
+				}
+				else if(permanentTf.getText().trim().isEmpty() == true) {	//address
+					savedSuccessTf.setText(" ★  Enter Your Address");
 				}
 			}
-			//secCh
-			str = secCh.getSelectedItem();
-			ch = str.toCharArray();
-			for(int i=0; i<str.length(); i++) {
-				try {
-					fos.write(ch[i]);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-			//space5
-			try {
-				fos.write('\n');
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			//rollL
-			str = rollL.getText();
-			ch = str.toCharArray();
-			for(int i=0; i<str.length(); i++) {
-				try {
-					fos.write(ch[i]);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-			//rollTf
-			str = rollTf.getText();
-			ch = str.toCharArray();
-			for(int i=0; i<str.length(); i++) {
-				try {
-					fos.write(ch[i]);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-			//space6
-			try {
-				fos.write('\n');
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			//genderL
-			str = genderL.getText();
-			ch = str.toCharArray();
-			for(int i=0; i<str.length(); i++) {
-				try {
-					fos.write(ch[i]);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-			//genderCh
-			str = genderCh.getSelectedItem();
-			ch = str.toCharArray();
-			for(int i=0; i<str.length(); i++) {
-				try {
-					fos.write(ch[i]);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-			//space7
-			try {
-				fos.write('\n');
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			//mobileL
-			str = mobileL.getText();
-			ch = str.toCharArray();
-			for(int i=0; i<str.length(); i++) {
-				try {
-					fos.write(ch[i]);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-			//mobileTf
-			str = mobileTf.getText();
-			ch = str.toCharArray();
-			for(int i=0; i<str.length(); i++) {
-				try {
-					fos.write(ch[i]);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-			//space8
-			try {
-				fos.write('\n');
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			//permanentL
-			str = permanentL.getText();
-			ch = str.toCharArray();
-			for(int i=0; i<str.length(); i++) {
-				try {
-					fos.write(ch[i]);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-			//permanentTf
-			str = permanentTf.getText();
-			ch = str.toCharArray();
-			for(int i=0; i<str.length(); i++) {
-				try {
-					fos.write(ch[i]);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-			//space9
-			try {
-				fos.write('\n');
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}	
-			//saved success
-			savedSuccessTf.setText(" ★  Successfully Saved");	
-			
 		}//end if(getSource() == submit)m
 	}
 }
