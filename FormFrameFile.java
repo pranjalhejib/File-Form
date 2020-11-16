@@ -9,19 +9,34 @@ import java.applet.*;
 import java.awt.*;
 import java.awt.event.*;
 
-//**********pop up start*****************************
+/*
+ * 
+ * Section:- Dialog Box
+ * 
+ * 
+ */
 class filenotfound1 
 {
 	filenotfound1()
 	{
+		/*
+		 * 
+		 * Form doesn't exists!
+		 * 
+		 */
 		//pop-up: Class JOptionPane
-				JOptionPane.showMessageDialog(null,"File Not Found!");
+				JOptionPane.showMessageDialog(null,"Form Doesn't Exists!");
 	}
 }
 class succesful_written1
 {
 	succesful_written1()
 	{
+		/*
+		 * 
+		 * Form saved successfully!
+		 * 
+		 */
 		//pop-up: Class JOptionPane
 				JOptionPane.showMessageDialog(null,"Saved Successfully!");
 	}
@@ -29,6 +44,11 @@ class succesful_written1
 //Wrong EMail
 class popupWrongEmail1  
 {
+	/*
+	 * 
+	 * check email: @/./com if not Invalid!
+	 * 
+	 */
 	popupWrongEmail1()
 	{		//pop-up: Class JOptionPane
 				JOptionPane.showMessageDialog(null,"Invalid Email Address!");
@@ -37,6 +57,11 @@ class popupWrongEmail1
 //Wrong empty information
 class popupEmptyInformation1 
 {	
+	/*
+	 * 
+	 * Empty Text Fields!
+	 * 
+	 */
 	popupEmptyInformation1()
 	{
 		//pop-up: Class JOptionPane
@@ -45,6 +70,12 @@ class popupEmptyInformation1
 }//invalid mobile
 class popupInvalidMobile1// extends Frame
 {
+	/*
+	 * 
+	 * 
+	 * 10 digits compulsory or invalid number
+	 * 
+	 */
 	popupInvalidMobile1()
 	{
 		JOptionPane.showMessageDialog(null,"Invalid Mobile Number!");		
@@ -52,26 +83,94 @@ class popupInvalidMobile1// extends Frame
 }
 class FileExists1  
 {
+	/*
+	 * 
+	 * Form Exists with same id!
+	 * 
+	 */
 	FileExists1()
 	{		//pop-up: Class JOptionPane
 				JOptionPane.showMessageDialog(null,"Form Already Exists!");
 	}
 }
-//****************end pop-up**********************************
+/*
+ * 
+ * End:- Dialog Box
+ * 
+ * 
+ */
+class View_Forms extends Frame implements ActionListener{		// View Forms #1
+	
+	Button viewB;
+	TextArea ta;
+	File file_directory;
+	View_Forms(String s) throws Exception {
+		super(s);
+		setLayout(null);
+		setSize(925,1050);	//width,height
+		setFont(new Font("serif",Font.BOLD,30));
+		setBackground(Color.black);
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				dispose();
+			}
+		});
+		
+		ta = new TextArea();
+		ta.setBounds(200, 200, 500, 500);
+		ta.setEditable(false);
+		ta.setBackground(Color.black);
+		ta.setForeground(Color.white);
+		ta.setVisible(false);
+		add(ta);
+		
+		
+	      
+	    viewB = new Button("VIEW");
+	    viewB.setBounds(200, 100, 500, 50);
+	    add(viewB);
+	    viewB.addActionListener(this);
+	    
+	}
+	
+@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+	file_directory = new File("D:\\Java Programs\\Java Eclipse\\EclipsePrograms\\IO files");
+	//List of all files and directories
+	String contents[] = file_directory.list();
+		if(e.getSource() == viewB) {
+			ta.setVisible(true);
+			
+			for(int i=0; i<contents.length; i++) {
+		         ta.append(contents[i]+"\n");
+		      }
+			
+		}
+	}
+}
+
+
+
 
 class Update_Info extends Frame implements ActionListener//,ItemListener		//update information	##3		
 {
 	
 	String email, dept, fname, adm, sec, roll, gender, mobile, address;
+	
 	Button submitB;
 	Choice deptCh, admYrCh, secCh, genderCh;
 	Label hL,emailL, selectDeptL, fullNameL, admYrL, secL, rollL, genderL, mobileL, permanentL;
 	TextField emailTf, fullNameTf, rollTf, mobileT, mobileTf, permanentTf, savedSuccessTf;
-    String is_email_valid="no";
-    String filemain; 
     
+	String is_email_valid="no";
+    
+	String filemain; 
     File change_data;
     
+    /*
+     * dialog box objects
+     */
     popupWrongEmail1 emailpopup;
     popupEmptyInformation1 emptypopup;
     popupInvalidMobile1 InvalidMobPop;
@@ -282,8 +381,13 @@ class Update_Info extends Frame implements ActionListener//,ItemListener		//upda
 		try {
 			FileReader fr = new FileReader(change_data);
 			BufferedReader br = new BufferedReader(fr);
-			
-			while((str=br.readLine())!=null)			// here how to read in tf
+			/*
+			 * 
+			 * HERE:  write from .txt to text fields
+			 * 
+			 * 
+			 */
+			while((str=br.readLine())!=null)			
 			{
 				if(str.contains("★ Email address:-")){//email
 					
@@ -350,10 +454,10 @@ class Update_Info extends Frame implements ActionListener//,ItemListener		//upda
 				{
 					
 					String check_email=registerDriverCodeForEmail();
-					String is_all_filled=registerDriverCodeForEmail();
-					String is_mob_valid=registerDriverCodeForEmail();
+					String is_all_filled=registerDriverCodeForFields();
+					String is_mob_valid=registerDriverCodeForInvalidMobile();
 					
-					if(e.getSource()==submitB) {
+				//	if(e.getSource()==submitB) {
 						
 					email = emailTf.getText();
 					dept = deptCh.getSelectedItem();
@@ -379,8 +483,7 @@ class Update_Info extends Frame implements ActionListener//,ItemListener		//upda
 					else if(is_mob_valid=="no")
 					{
 						InvalidMobPop=new popupInvalidMobile1();
-					}
-					
+					}else {
 						try
 				    	{
 						 // student_data.createNewFile();
@@ -431,14 +534,10 @@ class Update_Info extends Frame implements ActionListener//,ItemListener		//upda
 						{
 						}	
 						sw=new succesful_written1();
-										
 						dispose();
-		   
-					
-
-				}
-				}	
-		
+					}
+	
+				}		
 	}
 
 	//here
@@ -983,7 +1082,13 @@ class FormSearchFrame extends Frame implements ActionListener{		//form-search fr
 		}
 	}
 }
-class FillFrame extends Frame implements ActionListener {															//form fill
+/*
+ * 
+ * Section: Fill Form On Frame
+ * Store in .txt file with file name equals to roll no.
+ * 
+ */
+class FillFrame extends Frame implements ActionListener {															//form fill #1
 
 	//Frame-->
 		Button submitB;
@@ -995,6 +1100,9 @@ class FillFrame extends Frame implements ActionListener {															//form f
 		
 		String is_email_valid="no";
 		
+		/*
+		 * dialog boxes for further use
+		 */
 		popupWrongEmail1 emailpopup;
 	    popupEmptyInformation1 emptypopup;
 	    popupInvalidMobile1 InvalidMobPop;
@@ -1155,13 +1263,27 @@ class FillFrame extends Frame implements ActionListener {															//form f
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {//
-		// TODO Auto-generated method stub
-		String check_email=registerDriverCodeForEmail();
-		String is_all_filled=registerDriverCodeForFields();
-		String is_mob_valid=registerDriverCodeForInvalidMobile();
+		/*
+		 * 
+		 * 1. check email first
+		 * 2. fields filled
+		 * 3. mobile validity [10 digits]
+		 * 
+		 * will return "no" if false 
+		 * 
+		 */
+		
 		
 		if(e.getSource()==submitB);
 		{
+			/*
+			 * when user clicks submit 
+			 * 
+			 */
+			String check_email=registerDriverCodeForEmail();
+			String is_all_filled=registerDriverCodeForFields();
+			String is_mob_valid=registerDriverCodeForInvalidMobile();
+			
 			emails = emailTf.getText();
 			depts = deptCh.getSelectedItem();
 			fullNames = fullNameTf.getText() ;
@@ -1229,6 +1351,7 @@ class FillFrame extends Frame implements ActionListener {															//form f
 
 	              writer.flush();
 	              writer.close();
+	            
 	              filewriter.flush();
 	              filewriter.close();	              
 
@@ -1236,6 +1359,7 @@ class FillFrame extends Frame implements ActionListener {															//form f
 	              writer.write("\r");
 	              writer.flush();
 	              writer.close();
+	            
 	              filewriter.flush();
 	              filewriter.close();
 			    }
@@ -1243,6 +1367,7 @@ class FillFrame extends Frame implements ActionListener {															//form f
 				{
 				}	
 				sw=new succesful_written1();
+				
 				emailTf.setText("");
 				deptCh.add("");
 				fullNameTf.setText("");
@@ -1357,18 +1482,31 @@ class FillFrame extends Frame implements ActionListener {															//form f
 		return is_altmob_valid;
    }
 } 
-//Applet---------------->
+/*
+ * 
+ * Section: Applet
+ * contains: Applet Components with Frame Objects
+ * 
+ */
 public class FormFrameFile extends Applet implements ActionListener {	//applet
 	
-	//frames
+	/*
+	 * frames to link with applet
+	 */
 	FillFrame fillframe;
 	FormSearchFrame fsf;
 	FormDeleteFrame fdf;
 	FormUpdateFrame fuf;
+	View_Forms vf;
 	
+	/*
+	 * 
+	 * other components
+	 */
 	TextArea ta;
 	Label l1, l2;
 	Button fillFrameB, SearchBtn, DeleteBtn, UpdateBtn;
+	Button ViewBtn;
 	public void init() {
 		
 		setLayout(null);
@@ -1391,19 +1529,33 @@ public class FormFrameFile extends Applet implements ActionListener {	//applet
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		fuf = new FormUpdateFrame("Update Form");			//update form
+		try {
+			fuf = new FormUpdateFrame("Update Form");			//update form
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		/*try {
+			vf = new View_Forms("View Forms");					//view forms
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 		
 		//Applet contents----------------------------------->
+		
+		//title 1
 		l1 = new Label("Prof. Ram Meghe Institute of Technology & Research");
 		l1.setFont(new Font("Helvetica",Font.BOLD,50));
 		l1.setForeground(Color.white);
 		l1.setBounds(320, 50, 1600, 80);
-		
+		//title 2
 		l2 = new Label("Provisional Admission Form (Only for Regular Students)");
 		l2.setFont(new Font("serif",Font.BOLD,40));
 		l2.setForeground(Color.red);
 		l2.setBounds(430, 150, 1100, 80);
 		
+		//textarea on applet
 		ta = new TextArea("\n The students who have filled and submitted\n the Summer 2020 SGBAU Examination form\n are only eligible to fill the Provisional\n Admission Form for the Admission to the\n Higher Class.\n\n Note:- Your details will get stored in a file\n (File Name is your Roll No.)",8,40,TextArea.SCROLLBARS_NONE);	
 		ta.setFont(new Font("serif",Font.BOLD,25));
 		ta.setBackground(Color.black);
@@ -1415,55 +1567,86 @@ public class FormFrameFile extends Applet implements ActionListener {	//applet
 		//button-form applet
 		fillFrameB = new Button("FILL FORM");
 		fillFrameB.setFont(new Font("serif",Font.BOLD,25));
-		fillFrameB.setBounds(660, 700, 200, 40);
+		fillFrameB.setBounds(660, 650, 200, 40);
 		
 		//button-search
 		SearchBtn = new Button("SEARCH FORM");
 		SearchBtn.setFont(new Font("serif",Font.BOLD,25));
-		SearchBtn.setBounds(1020, 700, 200, 40);
+		SearchBtn.setBounds(1020, 650, 200, 40);
 		
 		//button-delete
 		DeleteBtn = new Button("DELETE FORM");
 		DeleteBtn.setFont(new Font("serif",Font.BOLD,25));
-		DeleteBtn.setBounds(660, 800, 200, 40);
+		DeleteBtn.setBounds(660, 750, 200, 40);
 		
 		//button-update
 		UpdateBtn = new Button("UPDATE FORM");
 		UpdateBtn.setFont(new Font("serif",Font.BOLD,25));
-		UpdateBtn.setBounds(1020, 800, 200, 40);
+		UpdateBtn.setBounds(1020, 750, 200, 40);
 		
+		//button-view forms
+		ViewBtn = new Button("SUBMISSIONS");
+		ViewBtn.setFont(new Font("serif",Font.BOLD,25));
+		ViewBtn.setBounds(840, 850, 200, 40);
+
 		
 		add(l1);
 		add(l2);
 		add(ta);
 	
+		
 		add(fillFrameB);
 		add(SearchBtn);
 		add(DeleteBtn);
 		add(UpdateBtn);
+		add(ViewBtn);
 		
-		//registration
+		/*
+		 * Frame buttons registration
+		 */
 		fillFrameB.addActionListener(this);
 		SearchBtn.addActionListener(this);
 		DeleteBtn.addActionListener(this);
 		UpdateBtn.addActionListener(this);
+		ViewBtn.addActionListener(this);
 	}
+	/*
+	 * 
+	 * Method of Interface ActionListener
+	 * 
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == fillFrameB) {		//form fill
+		if(e.getSource() == fillFrameB) {		//form: fill#1
 			
 			fillframe.setVisible(true);
 		}
 		else if(e.getSource() == SearchBtn) {
-			fsf.setVisible(true);				//form search
+			fsf.setVisible(true);				//form: search
 		}
 		else if(e.getSource() == DeleteBtn) {
-			fdf.setVisible(true);				//form delete
+			fdf.setVisible(true);				//form: delete
 		}
-		else if(e.getSource() == UpdateBtn) {		//form update
+		else if(e.getSource() == UpdateBtn) {		//form: update
 			fuf.setVisible(true);
+		}
+		else if(e.getSource() == ViewBtn) {		//form: view
+		
+			 
+			try {
+				vf = new View_Forms("View Forms");
+				vf.setVisible(true);
+	      	
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		}
 	}	
 }
-
+/*
+ * 
+ * End: Applet
+ * 
+ * 
+ */
 
